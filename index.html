@@ -2,28 +2,43 @@
 <html>
 <head>
     <title>Главная страница</title>
-    .timer-container {
-    text-align: center;
-    margin: 30px auto;
-    max-width: 500px;
-    padding: 20px;
-    background-color: #f5f5f5;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
+   // на сколько минут ставим таймер
+var count = 5;
+// запущен таймер или нет
+started = false;
 
-.timer-display {
-    font-size: 1.5em;
-    margin-top: 15px;
-}
+// запуск таймера по кнопке
+function start() {
+  // если таймер уже запущен — выходим из функции
+  if (started) {return};
+  // запоминаем время нажатия
+  var start_time = new Date(); 
+  // получаем время окончания таймера
+  var stop_time = start_time.setMinutes(start_time.getMinutes() + count); 
 
-.timer-display span {
-    font-weight: bold;
-    color: #2c3e50;
-    padding: 5px;
-    background-color: #ecf0f1;
-    border-radius: 5px;
-    margin: 0 5px;
+  // запускаем ежесекундный отсчёт
+  var countdown = setInterval(function() {
+    // текущее время
+    var now = new Date().getTime();
+    // сколько времени осталось до конца таймера
+    var remain = stop_time - now; 
+    // переводим миллисекунды в минуты и секунды
+    var min = Math.floor( (remain % (1000 * 60 * 60)) / (1000 * 60) );
+    var sec = Math.floor( (remain % (1000 * 60)) / 1000 );
+    // если значение текущей секунды меньше 10, добавляем вначале ведущий ноль
+    sec = sec < 10 ? "0" + sec : sec;
+    // отправляем значение таймера на страницу в нужный раздел
+    document.getElementById("timer").innerHTML = min + ":" + sec;
+    // если время вышло
+    if (remain < 0) {
+      // останавливаем отсчёт
+      clearInterval(countdown);
+      // пишем текст вместо цифр
+      document.getElementById("timer").innerHTML = "Всё!";
+     }
+  }, 1000);
+  // помечаем, что таймер уже запущен
+  started = true;
 }
 </head>
 <body>
