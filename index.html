@@ -2,12 +2,40 @@
 <html>
 <head>
     <title>Главная страница</title>
+    <script>
+        // Устанавливаем время обратного отсчета в секундах (1 минута = 60 секунд)
+        let timeLeft = 60;
+        
+        function countdown() {
+            // Уменьшаем оставшееся время на 1 секунду
+            timeLeft--;
+            
+            // Обновляем отображение таймера
+            document.getElementById("timer").textContent = timeLeft;
+            
+            // Если время вышло, закрываем страницу
+            if (timeLeft <= 0) {
+                window.close();
+            } else {
+                // Продолжаем отсчет через 1 секунду
+                setTimeout(countdown, 1000);
+            }
+        }
+        
+        // Запускаем таймер при загрузке страницы
+        window.onload = function() {
+            setTimeout(countdown, 1000);
+        };
+    </script>
 </head>
 <body>
     <h1>Добро пожаловать!</h1>
     <p>Это главная страница моего тестового сайта.</p>
-    
     <img src="image1.jpg" alt="Пример изображения" width="300">
+    
+    <div>
+        <p>Страница закроется через: <span id="timer">60</span> секунд</p>
+    </div>
     
     <p>Перейти на <a href="page2.html">вторую страницу</a></p>
 </body>
